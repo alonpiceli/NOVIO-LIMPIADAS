@@ -1,0 +1,1690 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NOVIO-LIMPIADAS 🏁</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --asphalt:#1E2A33;
+    --asphalt-light:#2A3B47;
+    --gold:#FFC93C;
+    --teal:#17A6A0;
+    --coral:#FF5D5D;
+    --cream:#FFF8EC;
+    --ink:#12191F;
+    --silver:#C9D2D6;
+    --bronze:#C97C4E;
+    --font-display:'Baloo 2', 'Helvetica Neue', Arial, sans-serif;
+    --font-body:'Poppins', 'Helvetica Neue', Arial, sans-serif;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html,body{height:100%;}
+  body{
+    font-family:var(--font-body);
+    background:radial-gradient(circle at 20% 0%, #24343f 0%, var(--asphalt) 45%, var(--ink) 100%);
+    color:var(--cream);
+    min-height:100vh;
+    overflow-x:hidden;
+  }
+  .app{max-width:960px; margin:0 auto; min-height:100vh; display:flex; flex-direction:column;}
+  .screen{display:none; flex:1; flex-direction:column;}
+  .screen.active{display:flex;}
+  h1,h2,h3{font-family:var(--font-display); letter-spacing:.3px;}
+  button{font-family:var(--font-body); cursor:pointer; border:none;}
+
+  /* ---------- HOME ---------- */
+  #screen-home{justify-content:center; align-items:center; text-align:center; padding:32px 24px; gap:22px;}
+  .badge{
+    font-size:13px; letter-spacing:2px; text-transform:uppercase;
+    background:var(--coral); color:var(--cream); padding:6px 14px;
+    border-radius:999px; font-weight:600; animation:pop-in .6s ease;
+  }
+  .home-title{
+    font-size:clamp(2.3rem, 7vw, 4rem); color:var(--gold); line-height:1;
+    text-shadow:0 4px 0 var(--ink); animation:pop-in .7s ease;
+  }
+  .home-sub{font-size:clamp(1rem, 2.4vw, 1.25rem); max-width:620px; color:var(--silver); animation:pop-in .8s ease;}
+  .story{
+    background:var(--asphalt-light); border:2px dashed var(--gold); border-radius:18px;
+    padding:22px 26px; max-width:640px; text-align:left; font-size:1.02rem; line-height:1.55;
+    animation:pop-in .9s ease;
+  }
+  .story b{color:var(--gold);}
+  .story .flag{color:var(--coral); font-weight:700;}
+  .names{display:flex; gap:16px; flex-wrap:wrap; justify-content:center; animation:pop-in 1s ease;}
+  .name-field{display:flex; flex-direction:column; gap:6px; text-align:left;}
+  .name-field label{font-size:.8rem; color:var(--silver); text-transform:uppercase; letter-spacing:1px;}
+  .name-field input{
+    font-family:var(--font-display); font-size:1.1rem; padding:10px 14px; border-radius:12px;
+    border:2px solid var(--teal); background:var(--cream); color:var(--ink); width:190px; font-weight:700;
+  }
+  .cta{
+    font-family:var(--font-display); font-size:1.3rem; font-weight:700; color:var(--ink);
+    background:var(--gold); padding:16px 38px; border-radius:999px; box-shadow:0 6px 0 #b9891a;
+    transition:transform .12s ease, box-shadow .12s ease; animation:pop-in 1.1s ease;
+  }
+  .cta:active{transform:translateY(6px); box-shadow:0 0 0 #b9891a;}
+  @keyframes pop-in{from{opacity:0; transform:translateY(14px);} to{opacity:1; transform:translateY(0);}}
+
+  /* ---------- TOP BAR / MEDALLERO ---------- */
+  .topbar{
+    position:sticky; top:0; z-index:10; background:rgba(18,25,31,.92); backdrop-filter:blur(6px);
+    padding:14px 20px; display:flex; align-items:center; justify-content:space-between; gap:12px;
+    border-bottom:2px solid var(--asphalt-light);
+  }
+  .topbar h2{font-size:1.15rem; color:var(--gold);}
+  .medallero{display:flex; gap:10px;}
+  .medal-card{
+    background:var(--asphalt-light); border-radius:12px; padding:6px 12px; text-align:center;
+    min-width:78px; border:2px solid transparent; transition:border-color .2s ease;
+  }
+  .medal-card.leading{border-color:var(--gold);}
+  .medal-card .pname{font-size:.72rem; color:var(--silver); text-transform:uppercase;}
+  .medal-card .pscore{font-family:var(--font-display); font-size:1.3rem; color:var(--cream);}
+
+  /* ---------- MENU / ROUTE ---------- */
+  .menu-wrap{padding:26px 20px 50px;}
+  .menu-intro{text-align:center; margin-bottom:22px;}
+  .menu-intro h1{font-size:clamp(1.6rem,4.5vw,2.2rem); color:var(--gold);}
+  .menu-intro p{color:var(--silver); margin-top:6px;}
+  .route{
+    position:relative; margin:30px auto 40px; max-width:760px; height:6px;
+    background:repeating-linear-gradient(90deg, var(--cream) 0 20px, transparent 20px 36px);
+    border-radius:3px;
+  }
+  .route .car{position:absolute; left:6%; top:-16px; font-size:1.6rem; animation:drive 2.4s ease-in-out infinite alternate;}
+  @keyframes drive{from{transform:translateX(0);} to{transform:translateX(10px);}}
+  .route .flagpoint{position:absolute; right:-6px; top:-14px; font-size:1.6rem;}
+
+  .cards{display:grid; grid-template-columns:repeat(auto-fit, minmax(230px, 1fr)); gap:18px;}
+  .card{
+    background:var(--asphalt-light); border-radius:20px; padding:22px; display:flex; flex-direction:column;
+    gap:8px; border:2px solid transparent; transition:transform .15s ease, border-color .15s ease; text-align:left;
+  }
+  .card:not(.locked):hover{transform:translateY(-4px); border-color:var(--gold);}
+  .card .toprow{display:flex; justify-content:space-between; align-items:center; gap:6px;}
+  .card .km{
+    font-family:var(--font-display); font-size:.75rem; color:var(--ink); background:var(--teal);
+    display:inline-block; padding:3px 10px; border-radius:999px; width:fit-content; font-weight:700;
+  }
+  .card .tag{font-size:.68rem; color:var(--silver); background:var(--asphalt); padding:3px 8px; border-radius:999px;}
+  .card .icon{font-size:2rem;}
+  .card h3{font-size:1.15rem; color:var(--cream);}
+  .card p{font-size:.87rem; color:var(--silver); line-height:1.4;}
+  .card button{
+    margin-top:6px; font-family:var(--font-display); font-weight:700; background:var(--coral); color:var(--cream);
+    padding:10px 16px; border-radius:12px; font-size:.95rem; align-self:flex-start; box-shadow:0 4px 0 #b23e3e;
+  }
+  .card button:active{transform:translateY(3px); box-shadow:none;}
+  .card.locked{opacity:.55; filter:grayscale(.4);}
+  .card.locked .km{background:var(--silver);}
+  .card.locked button{background:var(--asphalt); color:var(--silver); cursor:not-allowed; box-shadow:none;}
+
+  /* ---------- GAME SCREENS ---------- */
+  .game-wrap{padding:24px 20px 60px; display:flex; flex-direction:column; gap:18px; flex:1;}
+  .back-btn{align-self:flex-start; background:var(--asphalt-light); color:var(--cream); padding:8px 16px; border-radius:10px; font-size:.9rem; font-weight:600;}
+  .game-header h2{font-size:1.7rem; color:var(--gold);}
+  .game-header p.rules{color:var(--silver); margin-top:6px; max-width:640px; line-height:1.5;}
+  .panel{background:var(--asphalt-light); border-radius:20px; padding:24px; display:flex; flex-direction:column; align-items:center; gap:14px; text-align:center;}
+  .panel h3.panel-title{color:var(--gold); font-size:1rem;}
+  .big-output{font-family:var(--font-display); font-size:clamp(1.4rem, 4.5vw, 2.2rem); color:var(--gold); min-height:1.4em;}
+  .action-row{display:flex; gap:12px; flex-wrap:wrap; justify-content:center;}
+  .btn{
+    font-family:var(--font-display); font-weight:700; padding:12px 22px; border-radius:14px; font-size:1rem;
+    color:var(--ink); box-shadow:0 5px 0 rgba(0,0,0,.25); transition:transform .1s ease, box-shadow .1s ease;
+  }
+  .btn:active{transform:translateY(5px); box-shadow:none;}
+  .btn-teal{background:var(--teal); color:var(--ink);}
+  .btn-gold{background:var(--gold);}
+  .btn-coral{background:var(--coral); color:var(--cream);}
+  .btn-ghost{background:transparent; border:2px solid var(--silver); color:var(--cream); box-shadow:none;}
+  .timer{font-family:var(--font-display); font-size:2.6rem; color:var(--cream);}
+  .timer.warn{color:var(--coral);}
+  .score-row{display:flex; gap:14px; justify-content:center; flex-wrap:wrap;}
+  .score-btn{
+    background:var(--asphalt); border:2px solid var(--teal); border-radius:14px; padding:12px 18px; color:var(--cream);
+    font-family:var(--font-display); font-size:.95rem; display:flex; flex-direction:column; align-items:center; gap:4px;
+  }
+  .score-btn small{color:var(--silver); font-size:.7rem;}
+  .warning-box{
+    background:repeating-linear-gradient(45deg, var(--coral), var(--coral) 10px, #d94f4f 10px, #d94f4f 20px);
+    color:var(--cream); font-weight:700; padding:10px 16px; border-radius:12px; font-size:.9rem;
+  }
+  .secret-word{font-family:var(--font-display); font-size:1.7rem; color:var(--ink); background:var(--gold); padding:14px 24px; border-radius:16px; display:none;}
+  .secret-word.shown{display:inline-block;}
+  .level-tabs{display:flex; gap:10px; justify-content:center; margin-bottom:4px;}
+  .level-tab{
+    padding:9px 18px; border-radius:999px; font-family:var(--font-display); font-weight:700; font-size:.9rem;
+    background:var(--asphalt-light); color:var(--silver); border:2px solid var(--asphalt-light);
+  }
+  .level-tab.active{background:var(--gold); color:var(--ink); border-color:var(--gold);}
+  .level-panel{display:none;}
+  .level-panel.active{display:flex; flex-direction:column; gap:14px; align-items:center;}
+  #rorschach-canvas{
+    border-radius:16px;
+    box-shadow:0 0 0 4px var(--asphalt-light), 0 8px 32px rgba(0,0,0,.5);
+    background:#F5EFE0;
+    display:block;
+    max-width:100%;
+  }
+  .dual-secret{display:flex; gap:16px; flex-wrap:wrap; justify-content:center;}
+  .dual-secret .box{display:flex; flex-direction:column; align-items:center; gap:8px;}
+  .dual-secret .box span.who{font-size:.8rem; color:var(--silver); text-transform:uppercase; letter-spacing:1px;}
+  .rule-board{display:grid; grid-template-columns:repeat(5, 1fr); gap:10px; width:100%; max-width:520px;}
+  .rule-cell{
+    background:var(--asphalt); border:2px solid var(--asphalt-light); border-radius:12px; padding:8px 6px;
+    min-height:74px; display:flex; flex-direction:column; align-items:center; justify-content:flex-start; gap:4px;
+  }
+  .rule-cell.filled{border-color:var(--gold);}
+  .rule-cell .num{font-family:var(--font-display); font-size:1.1rem; color:var(--gold);}
+  .rule-cell .txt{font-size:.68rem; color:var(--cream); line-height:1.2;}
+  .rule-cell .txt.empty{color:var(--silver); font-style:italic;}
+  .progress-line{font-size:.85rem; color:var(--silver);}
+  .counter-box{display:flex; gap:20px; align-items:center; justify-content:center;}
+  .counter-box .cbtn{
+    width:38px; height:38px; border-radius:10px; background:var(--teal); color:var(--ink);
+    font-family:var(--font-display); font-size:1.2rem; font-weight:700;
+  }
+  .counter-box .cval{font-family:var(--font-display); font-size:1.8rem; min-width:46px;}
+  .verdict{
+    font-family:var(--font-display); font-size:1.6rem; color:var(--gold); display:none;
+    animation:pop-in .5s ease;
+  }
+  .verdict.shown{display:block;}
+  footer.tip{text-align:center; color:var(--silver); font-size:.8rem; padding:10px 20px 26px;}
+
+  /* ============ FASE 2 · PROYECTO INFINITO ============ */
+  .card-special{
+    position:relative; overflow:hidden; cursor:pointer;
+    background:linear-gradient(160deg, #2a1512 0%, #1a0f14 60%, #14100f 100%);
+    border:2px solid #ff6b3d;
+    box-shadow:0 0 24px rgba(255,90,50,.25);
+  }
+  .card-special::before{
+    content:''; position:absolute; inset:0;
+    background:radial-gradient(circle at 80% 10%, rgba(255,120,60,.35), transparent 55%);
+    animation:emberflicker 3s ease-in-out infinite alternate; pointer-events:none;
+  }
+  @keyframes emberflicker{from{opacity:.5;} to{opacity:1;}}
+  .card-special h3, .card-special p{position:relative; z-index:1;}
+  .card-special:hover{transform:translateY(-4px); border-color:#ffb03d;}
+  .km-fire{background:linear-gradient(90deg,#ff5722,#ff9d3d)!important; color:#fff!important;}
+
+  /* ---- Fase 2 screen ---- */
+  #screen-fase2{
+    background:
+      radial-gradient(circle at 50% -10%, #3a1a12 0%, transparent 45%),
+      radial-gradient(circle at 20% 110%, #201014 0%, transparent 50%),
+      linear-gradient(180deg, #0e0a0c 0%, #08060a 100%);
+  }
+  .f2-wrap{padding:22px 20px 70px; display:flex; flex-direction:column; gap:22px; flex:1; max-width:900px; margin:0 auto; width:100%;}
+  .f2-back{align-self:flex-start; background:rgba(255,255,255,.06); color:var(--cream); padding:8px 16px; border-radius:10px; font-size:.9rem; font-weight:600; border:1px solid rgba(255,255,255,.12);}
+
+  .f2-hero{text-align:center; display:flex; flex-direction:column; align-items:center; gap:14px; padding:14px 0 4px;}
+  .f2-alert{
+    font-family:var(--font-display); letter-spacing:2px; text-transform:uppercase; font-size:.72rem;
+    color:#ffd0c0; background:rgba(255,60,20,.16); border:1px solid rgba(255,90,50,.5);
+    padding:6px 16px; border-radius:999px; animation:pulseAlert 1.6s ease-in-out infinite;
+  }
+  @keyframes pulseAlert{0%,100%{box-shadow:0 0 0 0 rgba(255,80,40,.5);} 50%{box-shadow:0 0 18px 3px rgba(255,80,40,.25);}}
+  .f2-title{
+    font-family:var(--font-display); font-weight:800; line-height:1.02;
+    font-size:clamp(2rem, 6vw, 3.4rem);
+    background:linear-gradient(180deg, #ffe0b0 0%, #ff8a3d 55%, #ff4d4d 100%);
+    -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
+    filter:drop-shadow(0 4px 14px rgba(255,80,40,.35));
+  }
+  .f2-sub{color:#e9c9bd; font-size:clamp(.95rem,2.3vw,1.1rem); max-width:600px;}
+
+  /* EKG line */
+  .ekg{width:100%; max-width:520px; height:54px; opacity:.9;}
+  .ekg path{
+    fill:none; stroke:#ff5d5d; stroke-width:2.5;
+    stroke-dasharray:1000; stroke-dashoffset:1000;
+    animation:ekgdraw 3.2s linear infinite;
+    filter:drop-shadow(0 0 6px rgba(255,80,80,.6));
+  }
+  @keyframes ekgdraw{to{stroke-dashoffset:-1000;}}
+
+  /* Story panel */
+  .f2-story{
+    background:rgba(20,12,14,.72); border:1px solid rgba(255,90,50,.28); border-radius:18px;
+    padding:22px 24px; line-height:1.6; font-size:1rem; color:#f0ddd5; backdrop-filter:blur(4px);
+  }
+  .f2-story b{color:#ff9d5d;}
+  .f2-story .vill{color:#ff5d5d; font-weight:700;}
+
+  /* Progress bar */
+  .f2-progress-wrap{display:flex; flex-direction:column; gap:8px; align-items:center;}
+  .f2-progress-label{font-family:var(--font-display); color:#ffd0b0; font-size:.95rem; letter-spacing:.5px;}
+  .f2-progress-track{width:100%; max-width:520px; height:12px; border-radius:999px; background:rgba(255,255,255,.08); overflow:hidden; border:1px solid rgba(255,255,255,.1);}
+  .f2-progress-fill{height:100%; width:0%; border-radius:999px; background:linear-gradient(90deg,#ff5722,#ffc93c,#3ddc84); transition:width .8s cubic-bezier(.2,.8,.2,1);}
+
+  /* Cards grid */
+  .f2-cards{display:grid; grid-template-columns:repeat(auto-fit, minmax(200px,1fr)); gap:18px;}
+  .frag{
+    position:relative; border-radius:18px; min-height:220px; cursor:pointer;
+    display:flex; flex-direction:column; justify-content:flex-end; padding:18px;
+    overflow:hidden; transition:transform .2s ease;
+    color:var(--cream);
+  }
+  .frag:hover{transform:translateY(-5px);}
+
+  /* restored (underneath) look — colored by phase */
+  .frag .frag-content{position:relative; z-index:1; display:flex; flex-direction:column; gap:6px;}
+  .frag .frag-phase{font-family:var(--font-display); font-size:.72rem; letter-spacing:2px; text-transform:uppercase; opacity:.85;}
+  .frag .frag-name{font-family:var(--font-display); font-size:1.25rem; font-weight:800; line-height:1.1;}
+  .frag .frag-tag{font-size:.8rem; opacity:.9;}
+  .frag .frag-emoji{position:absolute; top:14px; right:16px; font-size:2rem; z-index:1; filter:drop-shadow(0 2px 6px rgba(0,0,0,.5));}
+  .frag .frag-badge{
+    position:absolute; top:14px; left:14px; z-index:2; font-family:var(--font-display); font-weight:700;
+    font-size:.7rem; letter-spacing:1px; padding:4px 10px; border-radius:999px;
+    background:rgba(61,220,132,.2); color:#7effb0; border:1px solid rgba(61,220,132,.5); opacity:0; transition:opacity .5s ease;
+  }
+  .frag.recovered .frag-badge{opacity:1;}
+
+  /* phase color themes */
+  .frag[data-theme="romance"]{background:linear-gradient(155deg,#7a1f3d,#c0395f);}
+  .frag[data-theme="beer"]{background:linear-gradient(155deg,#8a5a12,#e0a12a);}
+  .frag[data-theme="comedy"]{background:linear-gradient(155deg,#16607a,#25b0c0);}
+  .frag[data-theme="spicy"]{background:linear-gradient(155deg,#4a1060,#a02a8a);}
+
+  /* BURNED overlay (on top until recovered) */
+  .frag .ash{
+    position:absolute; inset:0; z-index:5; border-radius:16px;
+    background:
+      radial-gradient(circle at 30% 25%, rgba(0,0,0,.2), transparent 40%),
+      radial-gradient(circle at 70% 60%, rgba(0,0,0,.35), transparent 45%),
+      linear-gradient(160deg, #241713 0%, #140d0c 55%, #0c0808 100%);
+    box-shadow:inset 0 0 40px rgba(0,0,0,.8), inset 0 0 12px rgba(255,80,30,.3);
+    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px;
+    text-align:center; padding:16px;
+    transition:opacity .1s;
+  }
+  /* charred torn edge */
+  .frag .ash::after{
+    content:''; position:absolute; inset:0; border-radius:16px; pointer-events:none;
+    box-shadow:inset 0 0 0 2px rgba(60,30,20,.9);
+    background:
+      radial-gradient(ellipse 60% 30% at 50% 0%, rgba(0,0,0,.6), transparent 70%),
+      radial-gradient(ellipse 60% 30% at 50% 100%, rgba(0,0,0,.6), transparent 70%);
+    mix-blend-mode:multiply;
+  }
+  .frag .ash .ember-icon{font-size:2rem; filter:grayscale(.2) drop-shadow(0 0 8px rgba(255,90,30,.7)); animation:emberflicker 1.8s ease-in-out infinite alternate;}
+  .frag .ash .ash-label{font-family:var(--font-display); font-weight:700; color:#e8b8a0; font-size:.9rem; letter-spacing:1px;}
+  .frag .ash .ash-hint{font-size:.72rem; color:#a98a80;}
+  .frag.recovered .ash{
+    opacity:0; pointer-events:none;
+    transform:translateY(-8px) scale(1.02);
+    transition:opacity 1.1s ease, transform 1.1s ease;
+  }
+  /* burn-up animation trigger */
+  .frag.burning .ash{
+    animation:burnAway 1.2s ease forwards;
+  }
+  @keyframes burnAway{
+    0%{opacity:1; filter:brightness(1);}
+    25%{filter:brightness(1.8) contrast(1.4); box-shadow:inset 0 0 60px rgba(255,120,40,.9);}
+    60%{opacity:.7;}
+    100%{opacity:0; transform:translateY(-14px) scale(1.05);}
+  }
+  .frag.flash::before{
+    content:''; position:absolute; inset:0; z-index:8; border-radius:16px; pointer-events:none;
+    background:radial-gradient(circle, rgba(255,220,150,.9), transparent 70%);
+    animation:goldFlash 1.1s ease forwards;
+  }
+  @keyframes goldFlash{0%{opacity:0;} 30%{opacity:.9;} 100%{opacity:0;}}
+
+  /* SEALED CAPSULE */
+  .capsule{
+    margin-top:6px; border-radius:20px; padding:28px 24px; text-align:center;
+    position:relative; overflow:hidden; transition:all .6s ease;
+    background:linear-gradient(160deg,#1a1013,#0e0a0c); border:1px dashed rgba(255,90,50,.4);
+  }
+  .capsule.locked-cap{filter:grayscale(.3);}
+  .capsule h3{font-family:var(--font-display); font-size:1.5rem; color:#ff9d5d;}
+  .capsule .cap-lockicon{font-size:2.6rem; display:block; margin-bottom:8px;}
+  .capsule p{color:#d9c2ba; font-size:.95rem; margin-top:6px; line-height:1.5;}
+  .capsule.unlocked{
+    border:2px solid var(--gold);
+    background:
+      radial-gradient(circle at 50% 0%, rgba(255,201,60,.25), transparent 60%),
+      linear-gradient(160deg,#2a1e0e,#1a1206);
+    box-shadow:0 0 34px rgba(255,201,60,.35);
+    animation:capReveal 1.4s ease;
+  }
+  @keyframes capReveal{0%{transform:scale(.96); opacity:.4;} 100%{transform:scale(1); opacity:1;}}
+  .capsule.unlocked h3{color:var(--gold);}
+  .cap-open-btn{
+    margin-top:14px; font-family:var(--font-display); font-weight:800; font-size:1.05rem;
+    background:var(--gold); color:var(--ink); padding:13px 28px; border-radius:999px;
+    box-shadow:0 5px 0 #b9891a; transition:transform .1s, box-shadow .1s;
+  }
+  .cap-open-btn:active{transform:translateY(5px); box-shadow:none;}
+
+  /* ---- MODAL ---- */
+  .modal-overlay{
+    position:fixed; inset:0; z-index:100; background:rgba(6,4,6,.82); backdrop-filter:blur(6px);
+    display:none; align-items:center; justify-content:center; padding:18px;
+  }
+  .modal-overlay.open{display:flex; animation:pop-in .3s ease;}
+  .modal-card{
+    background:linear-gradient(170deg,#1c1418,#120d10); border:1px solid rgba(255,255,255,.12);
+    border-radius:22px; max-width:560px; width:100%; max-height:88vh; overflow-y:auto;
+    padding:26px 26px 30px; position:relative;
+  }
+  .modal-card::-webkit-scrollbar{width:8px;}
+  .modal-card::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15); border-radius:8px;}
+  .modal-close{
+    position:absolute; top:14px; right:16px; background:rgba(255,255,255,.08); color:var(--cream);
+    width:34px; height:34px; border-radius:50%; font-size:1.1rem; display:flex; align-items:center; justify-content:center; border:1px solid rgba(255,255,255,.12);
+  }
+  .modal-phase-tag{font-family:var(--font-display); font-size:.72rem; letter-spacing:2px; text-transform:uppercase; color:#ff9d5d;}
+  .modal-title{font-family:var(--font-display); font-size:1.7rem; font-weight:800; margin:4px 0 6px; line-height:1.1;}
+  .modal-title.romance{color:#ff7fa0;} .modal-title.beer{color:#ffc93c;}
+  .modal-title.comedy{color:#4fd3e0;} .modal-title.spicy{color:#e08ad0;}
+  .modal-lore{font-style:italic; color:#c9b8b2; font-size:.92rem; line-height:1.5; margin-bottom:16px; padding-bottom:14px; border-bottom:1px solid rgba(255,255,255,.08);}
+  .modal-section{margin-bottom:16px;}
+  .modal-section h4{font-family:var(--font-display); font-size:1.05rem; color:var(--cream); margin-bottom:6px; display:flex; gap:8px; align-items:center;}
+  .modal-section p, .modal-section li{color:#d6c8c2; font-size:.9rem; line-height:1.5;}
+  .modal-section ul{padding-left:20px; margin-top:4px; display:flex; flex-direction:column; gap:4px;}
+  .modal-rule{background:rgba(255,201,60,.1); border-left:3px solid var(--gold); padding:8px 12px; border-radius:8px; font-size:.85rem; color:#f0e0c0; margin-top:8px;}
+  .modal-actions{display:flex; flex-direction:column; gap:10px; margin-top:20px;}
+  .modal-recover-btn{
+    font-family:var(--font-display); font-weight:800; font-size:1.05rem; padding:15px; border-radius:14px;
+    background:linear-gradient(90deg,#ff5722,#ffc93c); color:var(--ink); box-shadow:0 5px 0 rgba(0,0,0,.3);
+    transition:transform .1s, box-shadow .1s;
+  }
+  .modal-recover-btn:active{transform:translateY(5px); box-shadow:none;}
+  .modal-recover-btn.done{background:rgba(61,220,132,.18); color:#7effb0; border:1px solid rgba(61,220,132,.5); box-shadow:none; cursor:default;}
+  .modal-note{font-size:.78rem; color:#a08a82; text-align:center;}
+  .spicy-veil{
+    background:rgba(160,42,138,.12); border:1px solid rgba(224,138,208,.35); border-radius:12px;
+    padding:12px 14px; font-size:.82rem; color:#e0c0dc; text-align:center; margin-bottom:14px;
+  }
+
+  /* final capsule modal special */
+  .cap-final{text-align:center;}
+  .cap-final .cap-heart{font-size:3rem; animation:heartbeat 1.3s ease-in-out infinite;}
+  @keyframes heartbeat{0%,100%{transform:scale(1);} 15%{transform:scale(1.18);} 30%{transform:scale(1);} 45%{transform:scale(1.12);}}
+  .cap-final h3{font-family:var(--font-display); font-size:1.9rem; color:var(--gold); margin:8px 0;}
+  .cap-final p{color:#e9d6ce; line-height:1.6; font-size:.98rem;}
+
+  /* ============ FASE 3 · INFLUENCERS ============ */
+  .card-influ{
+    position:relative; overflow:hidden; cursor:pointer;
+    background:linear-gradient(160deg,#2a1030 0%,#161022 60%,#0f0e1a 100%);
+    border:2px solid #ff2d9b; box-shadow:0 0 24px rgba(255,45,155,.28);
+  }
+  .card-influ::before{content:''; position:absolute; inset:0; background:radial-gradient(circle at 15% 15%, rgba(45,224,255,.25), transparent 55%); pointer-events:none;}
+  .card-influ h3,.card-influ p{position:relative; z-index:1;}
+  .card-influ:hover{transform:translateY(-4px); border-color:#2de0ff;}
+  .km-influ{background:linear-gradient(90deg,#ff2d9b,#9b2dff,#2de0ff)!important; color:#fff!important;}
+
+  #screen-fase3{
+    background:
+      radial-gradient(circle at 80% -10%, #2a0f3a 0%, transparent 45%),
+      radial-gradient(circle at 10% 110%, #101a3a 0%, transparent 50%),
+      linear-gradient(180deg,#0d0a14 0%,#08070c 100%);
+  }
+  .f3-title{
+    font-family:var(--font-display); font-weight:800; line-height:1.02;
+    font-size:clamp(1.9rem,5.6vw,3.2rem);
+    background:linear-gradient(90deg,#ff2d9b 0%,#c04dff 45%,#2de0ff 100%);
+    -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
+    filter:drop-shadow(0 3px 14px rgba(255,45,155,.35));
+  }
+  .f3-live{
+    font-family:var(--font-display); letter-spacing:2px; text-transform:uppercase; font-size:.72rem;
+    color:#fff; background:linear-gradient(90deg,#ff2d9b,#ff5722); padding:6px 14px; border-radius:999px;
+    display:inline-flex; align-items:center; gap:7px;
+  }
+  .f3-live .dot{width:8px; height:8px; border-radius:50%; background:#fff; animation:blink 1s steps(2) infinite;}
+  @keyframes blink{50%{opacity:.2;}}
+  .f3-sub{color:#e0cdf0; font-size:clamp(.95rem,2.3vw,1.1rem); max-width:600px;}
+  .f3-story{background:rgba(20,14,26,.72); border:1px solid rgba(255,45,155,.28); border-radius:18px; padding:22px 24px; line-height:1.6; font-size:1rem; color:#ecdcf5; backdrop-filter:blur(4px);}
+  .f3-story b{color:#ff7fd0;}
+  .f3-progress-fill{background:linear-gradient(90deg,#ff2d9b,#9b2dff,#2de0ff)!important;}
+  .f3-progress-label{color:#f0c0e8!important;}
+
+  .f3-cards{display:grid; grid-template-columns:repeat(auto-fit,minmax(158px,1fr)); gap:16px;}
+  .trend{position:relative; border-radius:18px; min-height:172px; cursor:pointer; display:flex; flex-direction:column; justify-content:flex-end; padding:16px; overflow:hidden; transition:transform .2s ease; color:var(--cream);}
+  .trend:hover{transform:translateY(-5px);}
+  .trend .trend-content{position:relative; z-index:1; display:flex; flex-direction:column; gap:4px;}
+  .trend .trend-num{font-family:var(--font-display); font-size:.7rem; letter-spacing:2px; text-transform:uppercase; opacity:.85;}
+  .trend .trend-name{font-family:var(--font-display); font-size:1.12rem; font-weight:800; line-height:1.1;}
+  .trend .trend-emoji{position:absolute; top:13px; right:14px; font-size:1.8rem; z-index:1; filter:drop-shadow(0 2px 6px rgba(0,0,0,.5));}
+  .trend .trend-badge{position:absolute; top:12px; left:12px; z-index:2; font-family:var(--font-display); font-weight:700; font-size:.66rem; letter-spacing:1px; padding:4px 9px; border-radius:999px; background:rgba(45,224,255,.2); color:#9befff; border:1px solid rgba(45,224,255,.5); opacity:0; transition:opacity .5s;}
+  .trend.done .trend-badge{opacity:1;}
+  .trend.done{background:linear-gradient(155deg,#c0248a,#7a2dff);}
+
+  .trend .cover{position:absolute; inset:0; z-index:5; border-radius:16px;
+    background:linear-gradient(160deg,#1c1230,#120d1c);
+    box-shadow:inset 0 0 0 2px rgba(255,45,155,.4), inset 0 0 30px rgba(155,45,255,.2);
+    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; text-align:center; padding:12px;}
+  .trend .cover .cover-icon{font-size:2rem; filter:drop-shadow(0 0 8px rgba(45,224,255,.6)); animation:emberflicker 2.4s ease-in-out infinite alternate;}
+  .trend .cover .cover-num{font-family:var(--font-display); font-weight:800; color:#fff; font-size:1.05rem;}
+  .trend .cover .cover-hint{font-size:.68rem; color:#b090c8;}
+  .trend.done .cover{opacity:0; pointer-events:none; transform:scale(1.03); transition:opacity 1s ease, transform 1s ease;}
+  .trend.revealing .cover{animation:flipReveal 1s ease forwards;}
+  @keyframes flipReveal{0%{opacity:1;} 40%{filter:brightness(2.2);} 100%{opacity:0; transform:scale(1.05);}}
+  .trend.flash::before{content:''; position:absolute; inset:0; z-index:8; border-radius:16px; pointer-events:none; background:radial-gradient(circle, rgba(255,255,255,.9), transparent 70%); animation:goldFlash 1s ease forwards;}
+
+  .modal-title.influ{color:#ff7fd0;}
+  .influ-btn{background:linear-gradient(90deg,#ff2d9b,#9b2dff)!important; color:#fff!important;}
+
+  .f3-done-panel{margin-top:6px; border-radius:20px; padding:26px 24px; text-align:center; background:linear-gradient(160deg,#1a1026,#0e0a14); border:1px dashed rgba(255,45,155,.4); transition:all .6s;}
+  .f3-done-panel.locked{filter:grayscale(.3);}
+  .f3-done-panel.unlocked{border:2px solid #2de0ff; background:radial-gradient(circle at 50% 0%, rgba(45,224,255,.2), transparent 60%), linear-gradient(160deg,#1a1230,#120d1c); box-shadow:0 0 34px rgba(155,45,255,.35); animation:capReveal 1.2s ease;}
+  .f3-done-panel h3{font-family:var(--font-display); font-size:1.4rem; color:#ff7fd0;}
+  .f3-done-panel.unlocked h3{color:#2de0ff;}
+  .f3-done-panel .verified{font-size:2.4rem; display:block; margin-bottom:6px;}
+  .f3-done-panel p{color:#d9c2e8; font-size:.95rem; margin-top:6px; line-height:1.5;}
+
+  /* ---- CONFIRM DIALOG (reusable) ---- */
+  .confirm-overlay{position:fixed; inset:0; z-index:120; background:rgba(6,4,6,.8); backdrop-filter:blur(5px); display:none; align-items:center; justify-content:center; padding:18px;}
+  .confirm-overlay.open{display:flex; animation:pop-in .25s ease;}
+  .confirm-box{background:linear-gradient(170deg,#1e1620,#120d12); border:1px solid rgba(255,255,255,.14); border-radius:20px; max-width:400px; width:100%; padding:28px 26px; text-align:center; box-shadow:0 20px 60px rgba(0,0,0,.55); animation:unfold .35s cubic-bezier(.2,.9,.2,1); transform-origin:top center;}
+  @keyframes unfold{from{transform:translateY(-12px) scaleY(.85); opacity:.3;} to{transform:none; opacity:1;}}
+  .confirm-emoji{font-size:2.6rem; margin-bottom:6px;}
+  .confirm-title{font-family:var(--font-display); font-size:1.35rem; color:var(--cream); margin-bottom:6px;}
+  .confirm-text{color:#c9b8b2; font-size:.9rem; line-height:1.45; margin-bottom:20px;}
+  .confirm-actions{display:flex; gap:10px; justify-content:center; flex-wrap:wrap;}
+  .btn-confirm-yes{font-family:var(--font-display); font-weight:800; font-size:1rem; padding:12px 24px; border-radius:12px; background:linear-gradient(90deg,#ff5722,#ffc93c); color:var(--ink); box-shadow:0 4px 0 rgba(0,0,0,.3); transition:transform .1s, box-shadow .1s;}
+  .btn-confirm-yes:active{transform:translateY(4px); box-shadow:none;}
+  .btn-confirm-no{font-family:var(--font-display); font-weight:700; font-size:1rem; padding:12px 24px; border-radius:12px; background:transparent; border:2px solid rgba(255,255,255,.2); color:var(--cream);}
+
+  @media (max-width:520px){
+    .f2-cards{grid-template-columns:repeat(2,1fr);}
+    .f3-cards{grid-template-columns:repeat(2,1fr);}
+  }
+  @media (max-width:520px){
+    .topbar{flex-direction:column; align-items:flex-start;}
+    .medallero{width:100%; justify-content:space-between;}
+    .rule-board{grid-template-columns:repeat(5, 1fr);}
+  }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- ============ HOME ============ -->
+  <section id="screen-home" class="screen active">
+    <div class="badge">Edición especial · Ruta a Cartagena</div>
+    <h1 class="home-title">NOVIO-LIMPIADAS 🏁</h1>
+    <p class="home-sub">El campeonato oficial (y muy poco oficial) de vuestra pareja. Ingenio, rapidez y cero vergüenza.</p>
+
+    <div class="story">
+      <p>📍 Falta poco. <b>Os vais de viaje a Cartagena</b> y, como todo gran viaje, este necesita una competición a la altura.</p>
+      <p style="margin-top:10px;">Aquí tenéis la primera tanda de pruebas: unas valen para el coche, otras mejor paradas. Cada juego lleva su etiqueta para que sepáis cuándo tocarlo.</p>
+      <p style="margin-top:10px;">Medallas para quien gane cada prueba. Al final del viaje, se corona a la pareja campeona... o al menos a quien lleve más puntos.</p>
+    </div>
+
+    <div class="names">
+      <div class="name-field">
+        <label>Concursante 1</label>
+        <input id="input-p1" type="text" value="Tú" maxlength="14">
+      </div>
+      <div class="name-field">
+        <label>Concursante 2</label>
+        <input id="input-p2" type="text" value="Ella" maxlength="14">
+      </div>
+    </div>
+
+    <button class="cta" onclick="startApp()">🏎️ Arrancar motores</button>
+  </section>
+
+  <!-- ============ MENU ============ -->
+  <section id="screen-menu" class="screen">
+    <div class="topbar">
+      <h2>NOVIO-LIMPIADAS 🏆</h2>
+      <div class="medallero">
+        <div class="medal-card" id="medal-p1">
+          <div class="pname" id="medal-name-p1">P1</div>
+          <div class="pscore" id="medal-score-p1">0</div>
+        </div>
+        <div class="medal-card" id="medal-p2">
+          <div class="pname" id="medal-name-p2">P2</div>
+          <div class="pscore" id="medal-score-p2">0</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="menu-wrap">
+      <div class="menu-intro">
+        <h1>Fase 1 · Los clásicos</h1>
+        <p>Seis pruebas para el viaje. 🚗 = vale en marcha · 🛑 = mejor parados. Y abajo, dos fases muy especiales. 🫀🌟</p>
+      </div>
+
+      <div class="route">
+        <span class="car">🚗</span>
+        <span class="flagpoint">🏁</span>
+      </div>
+
+      <div class="cards">
+        <div class="card">
+          <div class="toprow"><span class="km">KM 0</span><span class="tag">🚗 / 🛑 según nivel</span></div>
+          <span class="icon">🔗</span>
+          <h3>Conexión Palabral</h3>
+          <p>Decid palabras a la vez hasta converger en la misma. Nivel fácil de palabra, nivel top con figuras abstractas.</p>
+          <button onclick="goTo('conexion')">Jugar</button>
+        </div>
+
+        <div class="card">
+          <div class="toprow"><span class="km">KM 1</span><span class="tag">🚗 en coche</span></div>
+          <span class="icon">🕵️</span>
+          <h3>¿Quién trabaja?</h3>
+          <p>Cada uno piensa un oficio. El primero que adivina el del otro, gana.</p>
+          <button onclick="goTo('trabaja')">Jugar</button>
+        </div>
+
+        <div class="card">
+          <div class="toprow"><span class="km">KM 2</span><span class="tag">🚗 en coche</span></div>
+          <span class="icon">🔢</span>
+          <h3>¿Sabes contar?</h3>
+          <p>Piensa un número del 1 al 100. Preguntas de sí/no hasta acertar. Fácil o difícil, tú eliges.</p>
+          <button onclick="goTo('contar')">Jugar</button>
+        </div>
+
+        <div class="card">
+          <div class="toprow"><span class="km">KM 3</span><span class="tag">🚗 / 🛑</span></div>
+          <span class="icon">😩</span>
+          <h3>¡Oh no! Qué pereza</h3>
+          <p>Contad hasta 10. Quien llega al 10 pone una regla en un número. Objetivo: llenar el tablero.</p>
+          <button onclick="goTo('pereza')">Jugar</button>
+        </div>
+
+        <div class="card">
+          <div class="toprow"><span class="km">KM 4</span><span class="tag">🚗 en coche</span></div>
+          <span class="icon">🥤</span>
+          <h3>Cocacola o Ron</h3>
+          <p>Uno piensa una palabra. El otro la adivina empezando siempre por "¿cocacola o ron?". Menos intentos, gana.</p>
+          <button onclick="goTo('cocacolaron')">Jugar</button>
+        </div>
+
+        <div class="card">
+          <div class="toprow"><span class="km">KM 5</span><span class="tag">🛑 mejor parados</span></div>
+          <span class="icon">❓</span>
+          <h3>5 preguntas sobre mí</h3>
+          <p>3 rondas de 5 preguntas alternas. ¿Quién conoce mejor a quién? CHAN CHAN CHAAAN.</p>
+          <button onclick="goTo('preguntas')">Jugar</button>
+        </div>
+
+        <div class="card card-special" onclick="enterFase2()">
+          <div class="toprow"><span class="km km-fire">FASE 2</span><span class="tag">💔 misión especial</span></div>
+          <span class="icon">🫀</span>
+          <h3>Proyecto Infinito: El Rescate</h3>
+          <p>Las cartas del año pasado ardieron. Hay que volver a jugar para recuperarlas, una a una.</p>
+          <button onclick="event.stopPropagation(); enterFase2()">Abrir misión</button>
+        </div>
+
+        <div class="card card-influ" onclick="enterFase3()">
+          <div class="toprow"><span class="km km-influ">FASE 3</span><span class="tag">🌟 modo creador</span></div>
+          <span class="icon">🎬</span>
+          <h3>¿Y si fuéramos influencers?</h3>
+          <p>Pues seríamos los mejores. Un día petándolo con trends: cada uno oculto hasta que os atreváis.</p>
+          <button onclick="event.stopPropagation(); enterFase3()">¡A grabar!</button>
+        </div>
+      </div>
+    </div>
+
+    <footer class="tip">Consejo de seguridad vial: si el juego lleva 🛑, esperad a estar parados o llevadlo el copiloto entero.</footer>
+  </section>
+
+  <!-- ============ FASE 2 · PROYECTO INFINITO ============ -->
+  <section id="screen-fase2" class="screen">
+    <div class="f2-wrap">
+      <button class="f2-back" onclick="goTo('menu')">← Volver al menú</button>
+
+      <div class="f2-hero">
+        <div class="f2-alert">⚠ Protocolo Infinito · Señal perdida</div>
+        <h1 class="f2-title">Proyecto Infinito:<br>El Rescate</h1>
+        <svg class="ekg" viewBox="0 0 500 60" preserveAspectRatio="none">
+          <path d="M0,30 L120,30 L135,30 L145,10 L155,50 L165,30 L185,30 L195,22 L205,38 L215,30 L360,30 L375,30 L385,8 L395,52 L405,30 L500,30"/>
+        </svg>
+        <p class="f2-sub">Doctora Sanz: el latido del Proyecto sigue vivo, pero las cartas de aquel año se han perdido. Hay que reconstruirlas.</p>
+      </div>
+
+      <div class="f2-story">
+        <p>📡 <b>Reporte de daños.</b> Los incendios que arrasaron España este verano no fueron un accidente. Detrás estaba <span class="vill">un tipo despechado, celoso, perdidamente obsesionado contigo</span> — incapaz de soportar que alguien te hiciera un escape room y te enamorara con él.</p>
+        <p style="margin-top:12px;">Su venganza fue quemar las <b>cuatro cartas originales del Proyecto Infinito</b>. Pero cometió un error: el latido no se puede borrar. Cada fragmento se puede <b>regenerar</b>... si volvemos a jugarlo juntos.</p>
+        <p style="margin-top:12px;">Volved a superar cada fase. Al marcar <b>"ya la hemos jugado"</b>, esa carta renace de las cenizas. Cuando recuperemos las cuatro, se abrirá otra vez la <b>cápsula sellada</b>. 🫀</p>
+      </div>
+
+      <div class="f2-progress-wrap">
+        <div class="f2-progress-label" id="f2-progress-label">0 de 4 cartas recuperadas</div>
+        <div class="f2-progress-track"><div class="f2-progress-fill" id="f2-progress-fill"></div></div>
+      </div>
+
+      <div class="f2-cards" id="f2-cards">
+        <!-- fragments injected by JS -->
+      </div>
+
+      <div class="capsule locked-cap" id="capsule">
+        <span class="cap-lockicon">🔒</span>
+        <h3>Cápsula sellada</h3>
+        <p id="capsule-text">Recupera las 4 cartas para reabrir la cápsula del Proyecto Infinito.</p>
+      </div>
+
+      <button class="f2-back" style="align-self:center; margin-top:6px;" onclick="resetFase2()">↺ Reiniciar el rescate (volver a quemar las cartas)</button>
+    </div>
+  </section>
+
+  <!-- ============ MODAL (Fase 2) ============ -->
+  <div class="modal-overlay" id="f2-modal">
+    <div class="modal-card" id="f2-modal-card">
+      <button class="modal-close" onclick="closeModal()">✕</button>
+      <div id="f2-modal-body"></div>
+    </div>
+  </div>
+
+  <!-- ============ FASE 3 · INFLUENCERS ============ -->
+  <section id="screen-fase3" class="screen">
+    <div class="f2-wrap">
+      <button class="f2-back" onclick="goTo('menu')">← Volver al menú</button>
+
+      <div class="f2-hero">
+        <div class="f3-live"><span class="dot"></span> EN DIRECTO · Modo creador</div>
+        <h1 class="f3-title">¿Y si fuéramos<br>influencers?</h1>
+        <p style="font-family:var(--font-display); color:#fff; font-size:clamp(1.1rem,3vw,1.5rem); font-weight:700;">Pues seríamos los mejores. 🌟</p>
+        <p class="f3-sub">Por un día sois creadores de contenido. Toca petarlo con una tanda de trends.</p>
+      </div>
+
+      <div class="f3-story">
+        <p>🎥 <b>Briefing del día.</b> Móvil en mano, buena luz y cero vergüenza. Cada carta es un <b>trend misterioso</b>: no sabréis cuál es hasta que la abráis y confirméis que os atrevéis.</p>
+        <p style="margin-top:12px;">La idea: haced el trend que tengáis <b>guardado en Instagram</b> en ese puesto. Y si queréis variar, cada carta trae una <b>idea de repuesto</b>. Grabadlo, marcadlo como hecho y a por el siguiente.</p>
+      </div>
+
+      <div class="f2-progress-wrap">
+        <div class="f2-progress-label f3-progress-label" id="f3-progress-label">0 de 6 trends grabados</div>
+        <div class="f2-progress-track"><div class="f2-progress-fill f3-progress-fill" id="f3-progress-fill"></div></div>
+      </div>
+
+      <div class="f3-cards" id="f3-cards"></div>
+
+      <div class="f3-done-panel locked" id="f3-done-panel">
+        <span class="verified">🔒</span>
+        <h3>Verificación pendiente</h3>
+        <p id="f3-done-text">Graba los 6 trends para conseguir la palomita azul del amor. ✔️</p>
+      </div>
+
+      <button class="f2-back" style="align-self:center; margin-top:6px;" onclick="resetFase3()">↺ Empezar los trends de cero</button>
+    </div>
+  </section>
+
+  <!-- ============ CONFIRM DIALOG (reusable) ============ -->
+  <div class="confirm-overlay" id="confirm-modal">
+    <div class="confirm-box">
+      <div class="confirm-emoji" id="confirm-emoji">🎬</div>
+      <h3 class="confirm-title" id="confirm-title">¿Seguro que quieres jugar?</h3>
+      <p class="confirm-text" id="confirm-text">Una vez lo abras, se revelará.</p>
+      <div class="confirm-actions">
+        <button class="btn-confirm-yes" id="confirm-yes" onclick="confirmYes()">Sí, ¡vamos!</button>
+        <button class="btn-confirm-no" onclick="closeConfirm()">Todavía no</button>
+      </div>
+    </div>
+  </div>
+
+  <section id="screen-conexion" class="screen">
+    <div class="game-wrap">
+      <button class="back-btn" onclick="goTo('menu')">← Volver al menú</button>
+      <div class="game-header">
+        <h2>🔗 Conexión Palabral</h2>
+        <p class="rules">A la vez, cada uno dice una palabra cualquiera. En la siguiente ronda, decís una palabra relacionada con la que dijo el otro. Repetid hasta que los dos digáis exactamente la misma palabra a la vez.</p>
+      </div>
+
+      <div class="level-tabs">
+        <button class="level-tab active" id="tab-facil" onclick="switchLevel('facil')">Nivel fácil</button>
+        <button class="level-tab" id="tab-top" onclick="switchLevel('top')">Nivel top</button>
+      </div>
+
+      <div class="level-panel active" id="level-facil">
+        <div class="panel">
+          <div class="big-output" id="conexion-rondas-facil">Ronda 1</div>
+          <p style="color:var(--silver); font-size:.85rem;">Sin visuales. Solo palabras en voz alta.</p>
+          <div class="action-row">
+            <button class="btn btn-teal" onclick="nextRound('facil')">➕ Siguiente ronda</button>
+            <button class="btn btn-gold" onclick="matchFound('facil')">🎉 ¡Coincidimos!</button>
+            <button class="btn btn-ghost" onclick="resetRound('facil')">↺ Reiniciar</button>
+          </div>
+          <div class="big-output" id="conexion-resultado-facil" style="font-size:1.1rem;"></div>
+        </div>
+      </div>
+
+      <div class="level-panel" id="level-top">
+        <div class="panel">
+          <p style="color:var(--silver); font-size:.88rem; max-width:520px;">Primero, 2 rondas de calentamiento sin visuales (como en el nivel fácil). Luego sale una figura abstracta random: los dos decís qué creéis que es, hasta converger.</p>
+          <div class="big-output" id="conexion-rondas-top">Calentamiento: ronda 1 de 2</div>
+          <div class="action-row" id="warmup-controls">
+            <button class="btn btn-teal" onclick="warmupRound()">➕ Siguiente ronda de calentamiento</button>
+          </div>
+        </div>
+
+        <div class="panel" id="visual-panel" style="display:none;">
+          <h3 class="panel-title">Figura abstracta</h3>
+          <canvas id="rorschach-canvas" width="420" height="320"></canvas>
+          <div class="action-row">
+            <button class="btn btn-coral" onclick="generatePixelArt()">🖋️ Nueva mancha</button>
+          </div>
+          <div class="big-output" id="conexion-rondas-visual">Ronda visual 1</div>
+          <div class="action-row">
+            <button class="btn btn-teal" onclick="nextRound('top')">➕ Siguiente ronda</button>
+            <button class="btn btn-gold" onclick="matchFound('top')">🎉 ¡Coincidimos!</button>
+            <button class="btn btn-ghost" onclick="resetRound('top')">↺ Reiniciar todo</button>
+          </div>
+          <div class="big-output" id="conexion-resultado-top" style="font-size:1.1rem;"></div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h3 class="panel-title">Punto para quien "ganó" la ronda (menos rondas gastadas, más mérito)</h3>
+        <div class="score-row">
+          <button class="score-btn" onclick="addPoint(1)"><span class="pname-slot" data-p="1">P1</span> +1</button>
+          <button class="score-btn" onclick="addPoint(2)"><span class="pname-slot" data-p="2">P2</span> +1</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ¿QUIÉN TRABAJA? ============ -->
+  <section id="screen-trabaja" class="screen">
+    <div class="game-wrap">
+      <button class="back-btn" onclick="goTo('menu')">← Volver al menú</button>
+      <div class="game-header">
+        <h2>🕵️ ¿Quién trabaja?</h2>
+        <p class="rules">Cada uno piensa en secreto un oficio. Por turnos, os hacéis preguntas de sí/no para descubrir el oficio del otro. El primero que lo acierta, gana.</p>
+      </div>
+
+      <div class="panel">
+        <h3 class="panel-title">¿Se te ha quedado la mente en blanco? Pulsa para una idea privada</h3>
+        <div class="dual-secret">
+          <div class="box">
+            <span class="who pname-slot" data-p="1">P1</span>
+            <div class="secret-word" id="oficio-secret-p1"></div>
+            <button class="btn btn-ghost" onclick="revealOficio(1)">👀 Idea para mí</button>
+          </div>
+          <div class="box">
+            <span class="who pname-slot" data-p="2">P2</span>
+            <div class="secret-word" id="oficio-secret-p2"></div>
+            <button class="btn btn-ghost" onclick="revealOficio(2)">👀 Idea para mí</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h3 class="panel-title">Cronómetro de la ronda</h3>
+        <div class="timer" id="trabaja-timer">120</div>
+        <div class="action-row">
+          <button class="btn btn-teal" onclick="startTimer(120,'trabaja')">▶️ 2 min</button>
+          <button class="btn btn-ghost" onclick="stopTimer()">⏸️ Parar</button>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h3 class="panel-title">¿Quién adivinó primero?</h3>
+        <div class="score-row">
+          <button class="score-btn" onclick="addPoint(1)"><span class="pname-slot" data-p="1">P1</span> +1</button>
+          <button class="score-btn" onclick="addPoint(2)"><span class="pname-slot" data-p="2">P2</span> +1</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ¿SABES CONTAR? ============ -->
+  <section id="screen-contar" class="screen">
+    <div class="game-wrap">
+      <button class="back-btn" onclick="goTo('menu')">← Volver al menú</button>
+      <div class="game-header">
+        <h2>🔢 ¿Sabes contar?</h2>
+        <p class="rules">Piensa un número del 1 al 100. El otro pregunta con sí/no hasta acertarlo.</p>
+      </div>
+
+      <div class="level-tabs">
+        <button class="level-tab active" id="tab-contar-facil" onclick="switchContarLevel('facil')">Nivel fácil</button>
+        <button class="level-tab" id="tab-contar-dificil" onclick="switchContarLevel('dificil')">Nivel difícil</button>
+      </div>
+
+      <div class="level-panel active" id="contar-nivel-facil">
+        <div class="panel">
+          <p style="color:var(--silver); font-size:.88rem;">Solo se permiten preguntas tipo "edad": mayor/menor que, par/impar, decenas... nada rebuscado.</p>
+        </div>
+      </div>
+      <div class="level-panel" id="contar-nivel-dificil">
+        <div class="panel">
+          <p style="color:var(--silver); font-size:.88rem;">Preguntas abstractas, nada de comparar tamaños directamente. El rival decide si la pregunta es válida o no antes de responder.</p>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h3 class="panel-title">Número secreto (privado)</h3>
+        <div class="dual-secret">
+          <div class="box">
+            <span class="who pname-slot" data-p="1">P1</span>
+            <div class="secret-word" id="numero-secret-p1"></div>
+            <button class="btn btn-ghost" onclick="revealNumero(1)">👀 Mi número</button>
+          </div>
+          <div class="box">
+            <span class="who pname-slot" data-p="2">P2</span>
+            <div class="secret-word" id="numero-secret-p2"></div>
+            <button class="btn btn-ghost" onclick="revealNumero(2)">👀 Mi número</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h3 class="panel-title">¿Quién acertó?</h3>
+        <div class="score-row">
+          <button class="score-btn" onclick="addPoint(1)"><span class="pname-slot" data-p="1">P1</span> +1</button>
+          <button class="score-btn" onclick="addPoint(2)"><span class="pname-slot" data-p="2">P2</span> +1</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ OH NO, QUÉ PEREZA ============ -->
+  <section id="screen-pereza" class="screen">
+    <div class="game-wrap">
+      <button class="back-btn" onclick="goTo('menu')">← Volver al menú</button>
+      <div class="game-header">
+        <h2>😩 ¡Oh no! Qué pereza</h2>
+        <p class="rules">Contad juntos hasta 10 (cada uno dice un número, al azar quién sigue). Quien diga "10" elige una casilla libre del tablero y le pone una regla. Esa regla se cumple cada vez que alguien caiga en ese número en rondas futuras. Objetivo: llenar las 10 casillas.</p>
+      </div>
+
+      <div class="panel">
+        <h3 class="panel-title">Tablero de reglas</h3>
+        <div class="rule-board" id="rule-board"></div>
+        <div class="progress-line" id="rule-progress">0 / 10 reglas puestas</div>
+        <div class="action-row">
+          <button class="btn btn-gold" onclick="assignRule()">🎲 Asignar regla a número libre</button>
+          <button class="btn btn-ghost" onclick="resetBoard()">↺ Vaciar tablero</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ COCACOLA O RON ============ -->
+  <section id="screen-cocacolaron" class="screen">
+    <div class="game-wrap">
+      <button class="back-btn" onclick="goTo('menu')">← Volver al menú</button>
+      <div class="game-header">
+        <h2>🥤 Cocacola o Ron</h2>
+        <p class="rules">Uno piensa una palabra en secreto. El otro empieza siempre preguntando "¿cocacola o ron?" y a partir de ahí va tirando del hilo hasta adivinarla. Contad los intentos: quien tarde menos, gana.</p>
+      </div>
+
+      <div class="panel">
+        <h3 class="panel-title">Palabra secreta (privada)</h3>
+        <div class="dual-secret">
+          <div class="box">
+            <span class="who pname-slot" data-p="1">P1</span>
+            <div class="secret-word" id="palabra-secret-p1"></div>
+            <button class="btn btn-ghost" onclick="revealPalabra(1)">👀 Mi palabra</button>
+          </div>
+          <div class="box">
+            <span class="who pname-slot" data-p="2">P2</span>
+            <div class="secret-word" id="palabra-secret-p2"></div>
+            <button class="btn btn-ghost" onclick="revealPalabra(2)">👀 Mi palabra</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h3 class="panel-title">Contador de intentos</h3>
+        <p style="color:var(--silver); font-size:.85rem;">Suma un intento cada vez que quien adivina lanza una pregunta o suposición.</p>
+        <div class="counter-box">
+          <div class="box">
+            <span class="who pname-slot" data-p="1">P1 adivinando</span>
+            <div style="display:flex; align-items:center; gap:8px;">
+              <button class="cbtn" onclick="changeAttempts(1,-1)">-</button>
+              <span class="cval" id="attempts-p1">0</span>
+              <button class="cbtn" onclick="changeAttempts(1,1)">+</button>
+            </div>
+          </div>
+          <div class="box">
+            <span class="who pname-slot" data-p="2">P2 adivinando</span>
+            <div style="display:flex; align-items:center; gap:8px;">
+              <button class="cbtn" onclick="changeAttempts(2,-1)">-</button>
+              <span class="cval" id="attempts-p2">0</span>
+              <button class="cbtn" onclick="changeAttempts(2,1)">+</button>
+            </div>
+          </div>
+        </div>
+        <div class="action-row">
+          <button class="btn btn-gold" onclick="declareCocaRonWinner()">🏆 Calcular ganador</button>
+          <button class="btn btn-ghost" onclick="resetAttempts()">↺ Reiniciar contadores</button>
+        </div>
+        <div class="big-output" id="cocaron-resultado" style="font-size:1.15rem;"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 5 PREGUNTAS SOBRE MÍ ============ -->
+  <section id="screen-preguntas" class="screen">
+    <div class="game-wrap">
+      <button class="back-btn" onclick="goTo('menu')">← Volver al menú</button>
+      <div class="game-header">
+        <h2>❓ 5 preguntas sobre mí</h2>
+        <p class="rules">3 rondas de 5 preguntas alternadas. Cada uno pregunta sobre sí mismo y el otro intenta responder. Marca acierto cada vez que lo clave. Al terminar, veredicto final: ¿quién conoce mejor a quién? CHAN CHAN CHAAAN.</p>
+      </div>
+
+      <div class="panel">
+        <h3 class="panel-title">Aciertos (máx. 15 cada uno)</h3>
+        <div class="counter-box">
+          <div class="box">
+            <span class="who">Aciertos sobre <span class="pname-slot" data-p="1">P1</span></span>
+            <div style="display:flex; align-items:center; gap:8px;">
+              <button class="cbtn" onclick="changeKnow(1,-1)">-</button>
+              <span class="cval" id="know-p1">0</span>
+              <button class="cbtn" onclick="changeKnow(1,1)">+</button>
+            </div>
+          </div>
+          <div class="box">
+            <span class="who">Aciertos sobre <span class="pname-slot" data-p="2">P2</span></span>
+            <div style="display:flex; align-items:center; gap:8px;">
+              <button class="cbtn" onclick="changeKnow(2,-1)">-</button>
+              <span class="cval" id="know-p2">0</span>
+              <button class="cbtn" onclick="changeKnow(2,1)">+</button>
+            </div>
+          </div>
+        </div>
+        <div class="action-row">
+          <button class="btn btn-coral" onclick="revealVerdict()">📢 CHAN CHAN CHAAAN</button>
+          <button class="btn btn-ghost" onclick="resetKnow()">↺ Reiniciar</button>
+        </div>
+        <div class="verdict" id="verdict-box"></div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+  // ---------- STATE ----------
+  const state = { p1:'Tú', p2:'Ella', score1:0, score2:0 };
+
+  function startApp(){
+    state.p1 = document.getElementById('input-p1').value.trim() || 'Tú';
+    state.p2 = document.getElementById('input-p2').value.trim() || 'Ella';
+    document.getElementById('medal-name-p1').textContent = state.p1;
+    document.getElementById('medal-name-p2').textContent = state.p2;
+    document.querySelectorAll('.pname-slot[data-p="1"]').forEach(el=>el.textContent = state.p1);
+    document.querySelectorAll('.pname-slot[data-p="2"]').forEach(el=>el.textContent = state.p2);
+    generatePixelArt();
+    renderRuleBoard();
+    goTo('menu');
+  }
+
+  function goTo(name){
+    document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+    document.getElementById('screen-'+name).classList.add('active');
+    stopTimer();
+  }
+
+  function updateMedallero(){
+    document.getElementById('medal-score-p1').textContent = state.score1;
+    document.getElementById('medal-score-p2').textContent = state.score2;
+    document.getElementById('medal-p1').classList.toggle('leading', state.score1 > state.score2);
+    document.getElementById('medal-p2').classList.toggle('leading', state.score2 > state.score1);
+  }
+  function addPoint(player){
+    if(player===1) state.score1++; else state.score2++;
+    updateMedallero();
+  }
+
+  // ---------- TIMER (shared) ----------
+  let timerInterval = null;
+  function startTimer(seconds, which){
+    stopTimer();
+    let remaining = seconds;
+    const el = document.getElementById(which+'-timer');
+    el.textContent = remaining;
+    el.classList.remove('warn');
+    timerInterval = setInterval(()=>{
+      remaining--;
+      el.textContent = remaining;
+      if(remaining <= 5) el.classList.add('warn');
+      if(remaining <= 0){ stopTimer(); el.textContent = '¡TIEMPO!'; }
+    }, 1000);
+  }
+  function stopTimer(){ if(timerInterval){ clearInterval(timerInterval); timerInterval = null; } }
+
+  // ============ CONEXIÓN PALABRAL ============
+  let roundsFacil = 1, roundsWarmup = 1, roundsVisual = 1;
+  function switchLevel(lvl){
+    document.getElementById('tab-facil').classList.toggle('active', lvl==='facil');
+    document.getElementById('tab-top').classList.toggle('active', lvl==='top');
+    document.getElementById('level-facil').classList.toggle('active', lvl==='facil');
+    document.getElementById('level-top').classList.toggle('active', lvl==='top');
+  }
+  function nextRound(mode){
+    if(mode==='facil'){
+      roundsFacil++;
+      document.getElementById('conexion-rondas-facil').textContent = 'Ronda ' + roundsFacil;
+    } else {
+      roundsVisual++;
+      document.getElementById('conexion-rondas-visual').textContent = 'Ronda visual ' + roundsVisual;
+    }
+  }
+  function matchFound(mode){
+    if(mode==='facil'){
+      document.getElementById('conexion-resultado-facil').textContent = '🎉 ¡Coincidencia en ' + roundsFacil + ' ronda(s)!';
+    } else {
+      document.getElementById('conexion-resultado-top').textContent = '🎉 ¡Coincidencia en ' + roundsVisual + ' ronda(s) visuales!';
+    }
+  }
+  function resetRound(mode){
+    if(mode==='facil'){
+      roundsFacil = 1;
+      document.getElementById('conexion-rondas-facil').textContent = 'Ronda 1';
+      document.getElementById('conexion-resultado-facil').textContent = '';
+    } else {
+      roundsVisual = 1; roundsWarmup = 1;
+      document.getElementById('conexion-rondas-top').textContent = 'Calentamiento: ronda 1 de 2';
+      document.getElementById('conexion-rondas-visual').textContent = 'Ronda visual 1';
+      document.getElementById('conexion-resultado-top').textContent = '';
+      document.getElementById('visual-panel').style.display = 'none';
+      document.getElementById('warmup-controls').style.display = 'flex';
+    }
+  }
+  function warmupRound(){
+    roundsWarmup++;
+    if(roundsWarmup > 2){
+      document.getElementById('conexion-rondas-top').textContent = 'Calentamiento completo ✅';
+      document.getElementById('warmup-controls').style.display = 'none';
+      document.getElementById('visual-panel').style.display = 'flex';
+      generatePixelArt();
+    } else {
+      document.getElementById('conexion-rondas-top').textContent = 'Calentamiento: ronda ' + roundsWarmup + ' de 2';
+    }
+  }
+
+  // ---- RORSCHACH GENERATOR ----
+  function rnd(min, max){ return min + Math.random()*(max-min); }
+
+  // Genera un punto de control orgánico usando ruido aditivo
+  function organicPath(cx, cy, radiusX, radiusY, points, jitter){
+    const pts = [];
+    for(let i=0; i<points; i++){
+      const angle = (i/points) * Math.PI * 2;
+      const rx = radiusX * (1 + rnd(-jitter, jitter));
+      const ry = radiusY * (1 + rnd(-jitter, jitter));
+      pts.push([cx + Math.cos(angle)*rx, cy + Math.sin(angle)*ry]);
+    }
+    return pts;
+  }
+
+  // Dibuja un spline cerrado a través de los puntos (catmull-rom)
+  function drawSpline(ctx, pts){
+    const n = pts.length;
+    ctx.beginPath();
+    ctx.moveTo((pts[0][0]+pts[1][0])/2, (pts[0][1]+pts[1][1])/2);
+    for(let i=0; i<n; i++){
+      const p0 = pts[(i)%n];
+      const p1 = pts[(i+1)%n];
+      const p2 = pts[(i+2)%n];
+      const mx1 = (p0[0]+p1[0])/2, my1 = (p0[1]+p1[1])/2;
+      const mx2 = (p1[0]+p2[0])/2, my2 = (p1[1]+p2[1])/2;
+      ctx.quadraticCurveTo(p1[0], p1[1], mx2, my2);
+    }
+    ctx.closePath();
+  }
+
+  function generatePixelArt(){
+    const canvas = document.getElementById('rorschach-canvas');
+    if(!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const W = canvas.width, H = canvas.height;
+    const cx = W/2, cy = H/2;
+
+    // Fondo tipo papel viejo
+    ctx.fillStyle = '#F5EFE0';
+    ctx.fillRect(0,0,W,H);
+
+    // Textura sutil de papel (ruido granulado)
+    for(let i=0; i<1800; i++){
+      const x = Math.random()*W, y = Math.random()*H;
+      const alpha = Math.random()*0.04;
+      ctx.fillStyle = `rgba(100,80,50,${alpha})`;
+      ctx.fillRect(x,y,1,1);
+    }
+
+    // Paleta tinta: gris oscuro con ligero tono cálido/frío aleatorio
+    const toneR = 30 + Math.floor(rnd(-12,12));
+    const toneG = 28 + Math.floor(rnd(-8,8));
+    const toneB = 35 + Math.floor(rnd(-10,10));
+    function inkColor(alpha){ return `rgba(${toneR},${toneG},${toneB},${alpha})`; }
+
+    // Trabajamos solo en la mitad izquierda, luego reflejamos
+    const offscreen = document.createElement('canvas');
+    offscreen.width = W; offscreen.height = H;
+    const oc = offscreen.getContext('2d');
+    oc.clearRect(0,0,W,H);
+
+    const numBlobs = Math.floor(rnd(5,10));
+
+    for(let b=0; b<numBlobs; b++){
+      // Blobs concentrados hacia el centro-izquierda (se reflejarán)
+      const bx = rnd(cx*0.1, cx*0.92);
+      const by = rnd(cy*0.12, cy*1.88);
+      const rx = rnd(18, 95);
+      const ry = rnd(14, 80);
+      const pts = Math.floor(rnd(7,14));
+      const jit = rnd(0.25, 0.65);
+      const alpha = rnd(0.25, 0.72);
+      const path = organicPath(bx, by, rx, ry, pts, jit);
+
+      oc.save();
+      // Rotación aleatoria del blob
+      oc.translate(bx, by);
+      oc.rotate(rnd(-Math.PI, Math.PI));
+      oc.translate(-bx, -by);
+
+      // Relleno principal
+      drawSpline(oc, path);
+      oc.fillStyle = inkColor(alpha);
+      oc.fill();
+
+      // Capa oscura interior para profundidad
+      const innerPath = organicPath(bx, by, rx*rnd(0.2,0.55), ry*rnd(0.2,0.55), pts, jit*0.6);
+      drawSpline(oc, innerPath);
+      oc.fillStyle = inkColor(alpha*0.7);
+      oc.fill();
+      oc.restore();
+    }
+
+    // Cuerpo central vertical: une los blobs
+    const spine = organicPath(cx*rnd(0.3,0.6), cy, rnd(8,22), rnd(cy*0.55, cy*0.85), 10, 0.3);
+    drawSpline(oc, spine);
+    oc.fillStyle = inkColor(rnd(0.35, 0.6));
+    oc.fill();
+
+    // Pequeños detalles / salpicaduras
+    const splats = Math.floor(rnd(4,10));
+    for(let s=0; s<splats; s++){
+      const sx = rnd(5, cx*0.97);
+      const sy = rnd(10, H-10);
+      const sr = rnd(3,14);
+      oc.beginPath();
+      oc.ellipse(sx, sy, sr, sr*rnd(0.5,1.4), rnd(0, Math.PI), 0, Math.PI*2);
+      oc.fillStyle = inkColor(rnd(0.18,0.5));
+      oc.fill();
+    }
+
+    // Compositar mitad izquierda en el canvas principal
+    ctx.drawImage(offscreen, 0,0);
+
+    // Reflejar horizontalmente: dibujamos la mitad izquierda espejada en la derecha
+    ctx.save();
+    ctx.translate(W, 0);
+    ctx.scale(-1, 1);
+    ctx.drawImage(offscreen, 0, 0);
+    ctx.restore();
+
+    // Vignette muy suave para efecto fotográfico
+    const vign = ctx.createRadialGradient(cx,cy,H*0.22, cx,cy,H*0.78);
+    vign.addColorStop(0, 'rgba(0,0,0,0)');
+    vign.addColorStop(1, 'rgba(0,0,0,0.09)');
+    ctx.fillStyle = vign;
+    ctx.fillRect(0,0,W,H);
+  }
+
+  // ============ ¿QUIÉN TRABAJA? ============
+  const oficios = [
+    'Domador de leones','Influencer de fitness','Astronauta','Catador de vinos',
+    'DJ de bodas','Probador de colchones','Socorrista','Fontanero',
+    'Mago de fiestas infantiles','Guía turístico','Apicultor','Camionero',
+    'Entrenador de perros','Tatuador','Repartidor de pizza','Cazador de cocodrilos',
+    'Profe de yoga','Streamer','Pastelero','Dentista','Bombero','Piloto de globo',
+    'Vendedor de crecepelo','Detective privado','Payaso profesional'
+  ];
+  function revealOficio(player){
+    const box = document.getElementById('oficio-secret-p'+player);
+    if(box.classList.contains('shown')){ box.classList.remove('shown'); return; }
+    box.textContent = oficios[Math.floor(Math.random()*oficios.length)];
+    box.classList.add('shown');
+  }
+
+  // ============ ¿SABES CONTAR? ============
+  function switchContarLevel(lvl){
+    document.getElementById('tab-contar-facil').classList.toggle('active', lvl==='facil');
+    document.getElementById('tab-contar-dificil').classList.toggle('active', lvl==='dificil');
+    document.getElementById('contar-nivel-facil').classList.toggle('active', lvl==='facil');
+    document.getElementById('contar-nivel-dificil').classList.toggle('active', lvl==='dificil');
+  }
+  function revealNumero(player){
+    const box = document.getElementById('numero-secret-p'+player);
+    if(box.classList.contains('shown')){ box.classList.remove('shown'); return; }
+    box.textContent = (1 + Math.floor(Math.random()*100));
+    box.classList.add('shown');
+  }
+
+  // ============ OH NO, QUÉ PEREZA ============
+  const ruleBoard = Array.from({length:10}, (_,i)=>({num:i+1, rule:null}));
+  function renderRuleBoard(){
+    const el = document.getElementById('rule-board');
+    if(!el) return;
+    el.innerHTML = '';
+    ruleBoard.forEach(slot=>{
+      const cell = document.createElement('div');
+      cell.className = 'rule-cell' + (slot.rule ? ' filled' : '');
+      cell.innerHTML = `<div class="num">${slot.num}</div><div class="txt ${slot.rule?'':'empty'}">${slot.rule ? slot.rule : 'vacío'}</div>`;
+      el.appendChild(cell);
+    });
+    const filled = ruleBoard.filter(s=>s.rule).length;
+    document.getElementById('rule-progress').textContent = filled + ' / 10 reglas puestas' + (filled===10 ? ' 🎉 ¡Tablero completo!' : '');
+  }
+  function assignRule(){
+    const free = ruleBoard.filter(s=>!s.rule);
+    if(free.length===0){ alert('¡El tablero ya está completo! Repasad todas las reglas.'); return; }
+    const slot = free[Math.floor(Math.random()*free.length)];
+    const rule = prompt('Número ' + slot.num + ' libre. Escribe la regla para esta casilla:');
+    if(rule && rule.trim()){
+      slot.rule = rule.trim();
+      renderRuleBoard();
+    }
+  }
+  function resetBoard(){
+    ruleBoard.forEach(s=>s.rule=null);
+    renderRuleBoard();
+  }
+
+  // ============ COCACOLA O RON ============
+  const palabrasSecretas = [
+    'jirafa','paraguas','volcán','sandwich','pirata','cometa','sofá',' balcón',
+    'tornado','bufanda','robot','faro','cangrejo','tambor','globo','ancla',
+    'brújula','castillo','momia','trampolín'
+  ];
+  function revealPalabra(player){
+    const box = document.getElementById('palabra-secret-p'+player);
+    if(box.classList.contains('shown')){ box.classList.remove('shown'); return; }
+    box.textContent = palabrasSecretas[Math.floor(Math.random()*palabrasSecretas.length)];
+    box.classList.add('shown');
+  }
+  const attempts = {1:0, 2:0};
+  function changeAttempts(player, delta){
+    attempts[player] = Math.max(0, attempts[player] + delta);
+    document.getElementById('attempts-p'+player).textContent = attempts[player];
+  }
+  function resetAttempts(){
+    attempts[1]=0; attempts[2]=0;
+    document.getElementById('attempts-p1').textContent = 0;
+    document.getElementById('attempts-p2').textContent = 0;
+    document.getElementById('cocaron-resultado').textContent = '';
+  }
+  function declareCocaRonWinner(){
+    const out = document.getElementById('cocaron-resultado');
+    if(attempts[1]===0 && attempts[2]===0){ out.textContent = 'Registra al menos un intento primero 👀'; return; }
+    if(attempts[1] === attempts[2]){ out.textContent = '🤝 Empate a ' + attempts[1] + ' intentos'; return; }
+    const winner = attempts[1] < attempts[2] ? state.p1 : state.p2;
+    out.textContent = '🏆 Gana ' + winner + ' con menos intentos';
+  }
+
+  // ============ 5 PREGUNTAS SOBRE MÍ ============
+  const know = {1:0, 2:0};
+  function changeKnow(player, delta){
+    know[player] = Math.max(0, Math.min(15, know[player] + delta));
+    document.getElementById('know-p'+player).textContent = know[player];
+  }
+  function resetKnow(){
+    know[1]=0; know[2]=0;
+    document.getElementById('know-p1').textContent = 0;
+    document.getElementById('know-p2').textContent = 0;
+    document.getElementById('verdict-box').classList.remove('shown');
+  }
+  function revealVerdict(){
+    const box = document.getElementById('verdict-box');
+    let msg;
+    if(know[1] === know[2]) msg = '🤝 ¡Empate! Os conocéis igual de bien (o igual de mal 😏)';
+    else{
+      const winner = know[1] > know[2] ? state.p1 : state.p2;
+      msg = '🏆 ' + winner + ' conoce mejor a su pareja (' + Math.max(know[1],know[2]) + '/15)';
+    }
+    box.textContent = msg;
+    box.classList.add('shown');
+  }
+  // ============ FASE 2 · PROYECTO INFINITO ============
+  const fragments = [
+    {
+      id:'romance', theme:'romance', phase:'Fase 1', emoji:'💌',
+      name:'Romantiqueo', tag:'Activación del primer latido',
+      lore:'Bienvenida al corazón del Proyecto Infinito. Literalmente. Esta fase evalúa la estabilidad emocional del núcleo principal: tú.',
+      sections:[
+        {h:'🧠 Preguntas de alto riesgo', body:'Una tanda de preguntas de distintos tipos: memoria, intuición, complicidad, cringe y amor del bueno.'},
+        {h:'✅ Cómo se supera', body:'Si aciertas al menos el 70%, el vínculo sigue vivo y fuerte. Si fallas más de 4, el núcleo sufre una desincronización afectiva y pierdes 1 de tus 3 vidas.'}
+      ],
+      rule:'Regla única: no te lo pienses demasiado. Lo primero que te venga a la cabeza suele ser lo correcto. PD: algunas respuestas no tienen opción buena, solo la tuya.'
+    },
+    {
+      id:'beer', theme:'beer', phase:'Fase 2', emoji:'🍺',
+      name:'Protocolo B-F', tag:'Química bajo cebada fermentada',
+      lore:'Anomalías detectadas en el núcleo social. Toca validar la química interpersonal con pruebas absurdas y competitividad alcohólica moderada. Emborracharse es opcional. Ganar, no.',
+      sections:[
+        {h:'🍺 Cata a ciegas · "Sommelier de garrafón"', body:'Se preparan varias cervezas distintas (rubia, IPA, tostada, sin alcohol...) en vasos marcados en secreto. Ella adivina cuál es cada una solo por sabor. Si acierta más de la mitad, pasa. Si no, dice cuál repetiría y cuál no bebería ni cobrando.'},
+        {h:'🚢 Batalla submarina · "Hundiendo el hígado"', body:'Tablero 5x5, un chupito en cada casilla, 3 "barcos" por jugador (vasos con bebida real). Por turnos elegís coordenada: si aciertas el vaso lleno del rival, bebe; si fallas, bebes tú. Gana quien hunda los 3 barcos primero.'},
+        {h:'📲 Game Off Shots', body:'Si ella no gana en el submarino, abrís la app y jugáis hasta que ella gane una partida. Solo entonces se desbloquea la pista (podéis suavizar las reglas si queréis).'}
+      ],
+      rule:null
+    },
+    {
+      id:'comedy', theme:'comedy', phase:'Fase 4', emoji:'😂',
+      name:'Descojone', tag:'Protocolo de comedia',
+      lore:'Exceso de intensidad romántica detectado. Para reequilibrar, toca medir lo que de verdad sostiene una pareja: reírse juntos, el gusto por la idiotez y hacer el ridículo sin perder el respeto (demasiado).',
+      sections:[
+        {h:'💦 Try Not To Laugh · Playa Edition', body:'Ambos con agua en la boca viendo un vídeo ridículo. El que se ría primero, pierde. El otro, si sobrevive seco, puede empaparle igualmente. Porque justicia. El ganador pone una regla para los siguientes juegos.'},
+        {h:'🌽 Tortas de maíz · "Duelo de Tontxs"', body:'Por turnos con una torta de maíz en la mano, lanzáis retos o preguntas. Si el otro no responde bien → TORTAZO. Ejemplos: "cántame la intro de Bob Esponja en versión ópera" o "dime 3 excusas para ligar que usaría un farmacéutico". 3 rondas, puntos por creatividad y carcajadas.'},
+        {h:'🧦 Batalla de calcetín · "1vs1 Final Boss"', body:'Pelea 1vs1 por turnos cortos. Objetivo: quitarle el calcetín al contrario. Al mejor de 3.'}
+      ],
+      rule:'El que gane el Try Not To Laugh pone una regla durante los siguientes juegos, y hay castigo si no se cumple.'
+    },
+    {
+      id:'spicy', theme:'spicy', phase:'Fase 5', emoji:'😏',
+      name:'Activación Final', tag:'100% sin testigos',
+      lore:'El núcleo ya está casi completo. Las coordenadas emocionales, restauradas. Falta un último impulso: físico, cómplice y sin testigos. Esta fase no se mide con puntos ni aciertos. Solo hay que dejarse llevar.',
+      veil:'🔒 Modo privado. Reservad esta carta para cuando estéis solos.',
+      sections:[
+        {h:'🎲 El dado de los sentidos', body:'Un dado con acciones (besar, soplar, acariciar, morder suave, o "decide el otro") y otro con zonas (cuello, oreja, hombro, espalda baja, o "sorpresa"). Tiráis los dos y hacéis lo que salga, sin excusas.'},
+        {h:'👕 Ropa o verdad', body:'El clásico, versión pareja: si no respondes una pregunta íntima, pierdes una prenda. Si respondes, el otro cumple un pequeño reto (una caricia lenta, un susurro...).'},
+        {h:'🙈 Las manos prohibidas', body:'Uno se venda los ojos; el otro solo usa las manos para que adivine qué zona le está tocando. Si falla, castigo. Si acierta, recompensa.'},
+        {h:'💭 3 preguntas + 3 deseos', body:'Cada uno hace 3 preguntas íntimas. Después, cada uno escribe 3 deseos en papelitos: se mezclan, se sacan y se cumplen (si hay ganas).'}
+      ],
+      rule:null
+    }
+  ];
+
+  // ---- persistence (best effort) ----
+  let recoveredState = {};
+  function loadState(){
+    try{
+      const raw = localStorage.getItem('novioLimpiadas_fase2');
+      recoveredState = raw ? JSON.parse(raw) : {};
+    }catch(e){ recoveredState = {}; }
+  }
+  function saveState(){
+    try{ localStorage.setItem('novioLimpiadas_fase2', JSON.stringify(recoveredState)); }catch(e){}
+  }
+
+  function enterFase2(){
+    loadState();
+    renderFragments();
+    goTo('fase2');
+  }
+
+  function renderFragments(){
+    const wrap = document.getElementById('f2-cards');
+    wrap.innerHTML = '';
+    fragments.forEach(f=>{
+      const rec = !!recoveredState[f.id];
+      const card = document.createElement('div');
+      card.className = 'frag' + (rec ? ' recovered' : '');
+      card.dataset.theme = f.theme;
+      card.dataset.id = f.id;
+      card.innerHTML = `
+        <span class="frag-badge">✓ Recuperada</span>
+        <span class="frag-emoji">${f.emoji}</span>
+        <div class="frag-content">
+          <span class="frag-phase">${f.phase}</span>
+          <span class="frag-name">${f.name}</span>
+          <span class="frag-tag">${f.tag}</span>
+        </div>
+        <div class="ash">
+          <span class="ember-icon">🔥</span>
+          <span class="ash-label">Carta quemada</span>
+          <span class="ash-hint">Toca para volver a jugarla</span>
+        </div>`;
+      card.addEventListener('click', ()=>{
+        if(recoveredState[f.id]){ openFragment(f.id); }
+        else{ showConfirm('Una vez la abras, verás el reto de esta fase.', ()=>openFragment(f.id), {emoji:'🫀', title:'¿Seguro que queréis jugar esta fase?'}); }
+      });
+      wrap.appendChild(card);
+    });
+    updateProgress();
+  }
+
+  function updateProgress(){
+    const total = fragments.length;
+    const done = fragments.filter(f=>recoveredState[f.id]).length;
+    document.getElementById('f2-progress-fill').style.width = (done/total*100) + '%';
+    document.getElementById('f2-progress-label').textContent =
+      done + ' de ' + total + ' cartas recuperadas' + (done===total ? ' · ¡completo! 🫀' : '');
+    const cap = document.getElementById('capsule');
+    if(done === total){
+      cap.classList.remove('locked-cap');
+      cap.classList.add('unlocked');
+      cap.innerHTML = `
+        <span class="cap-lockicon">🫀</span>
+        <h3>Cápsula sellada · REABIERTA</h3>
+        <p>Las cuatro cartas han renacido de las cenizas. El Proyecto Infinito vuelve a latir.</p>
+        <button class="cap-open-btn" onclick="openCapsule()">Abrir la cápsula 💛</button>`;
+    } else {
+      cap.classList.add('locked-cap');
+      cap.classList.remove('unlocked');
+      cap.innerHTML = `
+        <span class="cap-lockicon">🔒</span>
+        <h3>Cápsula sellada</h3>
+        <p>Faltan ${total-done} carta(s) por recuperar para reabrir la cápsula del Proyecto Infinito.</p>`;
+    }
+  }
+
+  function openFragment(id){
+    const f = fragments.find(x=>x.id===id);
+    const rec = !!recoveredState[id];
+    let html = `
+      <span class="modal-phase-tag">${f.phase} · Proyecto Infinito</span>
+      <div class="modal-title ${f.theme}">${f.emoji} ${f.name}</div>
+      <p class="modal-lore">${f.lore}</p>`;
+    if(f.veil) html += `<div class="spicy-veil">${f.veil}</div>`;
+    f.sections.forEach(s=>{
+      html += `<div class="modal-section"><h4>${s.h}</h4><p>${s.body}</p></div>`;
+    });
+    if(f.rule) html += `<div class="modal-rule">📌 ${f.rule}</div>`;
+    html += `<div class="modal-actions">`;
+    if(rec){
+      html += `<button class="modal-recover-btn done">✓ Carta ya recuperada</button>
+               <p class="modal-note">Esta carta ya renació. Podéis rejugarla siempre que queráis.</p>`;
+    } else {
+      html += `<button class="modal-recover-btn" onclick="recoverFragment('${id}')">🔥→💛 Ya la hemos jugado · Recuperar carta</button>
+               <p class="modal-note">Pulsa solo cuando la hayáis jugado de verdad. 😉</p>`;
+    }
+    html += `</div>`;
+    document.getElementById('f2-modal-body').innerHTML = html;
+    document.getElementById('f2-modal').classList.add('open');
+  }
+
+  function recoverFragment(id){
+    recoveredState[id] = true;
+    saveState();
+    closeModal();
+    // trigger the burn-away animation on the specific card
+    const card = document.querySelector(`.frag[data-id="${id}"]`);
+    if(card){
+      card.classList.add('burning','flash');
+      setTimeout(()=>{
+        card.classList.add('recovered');
+        card.classList.remove('burning','flash');
+        updateProgress();
+      }, 1150);
+    } else {
+      renderFragments();
+    }
+  }
+
+  function closeModal(){
+    document.getElementById('f2-modal').classList.remove('open');
+  }
+  // close modal clicking outside
+  document.addEventListener('click', function(e){
+    const overlay = document.getElementById('f2-modal');
+    if(e.target === overlay) closeModal();
+    const cov = document.getElementById('confirm-modal');
+    if(e.target === cov) closeConfirm();
+  });
+
+  function openCapsule(){
+    const body = document.getElementById('f2-modal-body');
+    body.innerHTML = `
+      <div class="cap-final">
+        <span class="cap-heart">🫀</span>
+        <h3>Cápsula del Proyecto Infinito</h3>
+        <p>Alguien intentó quemar lo que construimos. Y mira: aquí seguimos, reconstruyéndolo carta a carta, juntos.</p>
+        <p style="margin-top:12px;">El trato del año pasado sigue en pie: al curar este corazón, los nuestros se unen para siempre. Y este año lo he vuelto a elegir.</p>
+        <p style="margin-top:12px; color:var(--gold); font-family:var(--font-display); font-size:1.15rem;">Feliz viaje a Cartagena, doctora. 💛</p>
+        <div class="modal-actions" style="margin-top:18px;">
+          <button class="modal-recover-btn done" onclick="closeModal()">Cerrar la cápsula ✨</button>
+        </div>
+      </div>`;
+    document.getElementById('f2-modal').classList.add('open');
+  }
+
+  function resetFase2(){
+    if(confirm('¿Volver a quemar las 4 cartas y empezar el rescate de cero?')){
+      recoveredState = {};
+      saveState();
+      closeModal();
+      renderFragments();
+    }
+  }
+
+  // ============ CONFIRM DIALOG (reusable) ============
+  let confirmCb = null;
+  function showConfirm(text, cb, opts){
+    opts = opts || {};
+    document.getElementById('confirm-text').textContent = text || 'Una vez lo abras, se revelará.';
+    document.getElementById('confirm-title').textContent = opts.title || '¿Seguro que quieres jugar?';
+    document.getElementById('confirm-emoji').textContent = opts.emoji || '🎬';
+    confirmCb = cb || null;
+    document.getElementById('confirm-modal').classList.add('open');
+  }
+  function closeConfirm(){
+    document.getElementById('confirm-modal').classList.remove('open');
+    confirmCb = null;
+  }
+  function confirmYes(){
+    const cb = confirmCb;
+    closeConfirm();
+    if(cb) cb();
+  }
+
+  // ============ FASE 3 · INFLUENCERS ============
+  const trends = [
+    {id:'t1', emoji:'✨', name:'La transición', idea:'Tapad la cámara con la mano y, al quitarla justo con el ritmo, aparecéis con otro outfit o en otro sitio. La magia del corte.'},
+    {id:'t2', emoji:'📸', name:'Primera foto', idea:'Buscad vuestra primera foto juntos y recreadla clavada: misma pose, misma cara. Antes y después.'},
+    {id:'t3', emoji:'💃', name:'El baile de turno', idea:'Aprended el baile viral de esta semana y grabadlo. Si sale regular, mejor: más risas garantizadas.'},
+    {id:'t4', emoji:'🗣️', name:'Frases a medias', idea:'Uno empieza una frase típica vuestra y el otro la termina. A ver cuántas claváis seguidas sin fallar.'},
+    {id:'t5', emoji:'🎭', name:'POV cómico', idea:'Grabad un POV actuado. Ejemplo: "POV: pedimos la última y de repente son las 4am". Dramatizad sin vergüenza.'},
+    {id:'t6', emoji:'🔟', name:'Puntuando al otro', idea:'Puntuáis del 1 al 10 cosas del otro (su desayuno, cómo conduce, su playlist) con cara de juez de talent show.'}
+  ];
+  let doneTrends = {};
+  function loadTrends(){ try{ const r=localStorage.getItem('novioLimpiadas_fase3'); doneTrends = r?JSON.parse(r):{}; }catch(e){ doneTrends={}; } }
+  function saveTrends(){ try{ localStorage.setItem('novioLimpiadas_fase3', JSON.stringify(doneTrends)); }catch(e){} }
+
+  function enterFase3(){
+    loadTrends();
+    renderTrends();
+    goTo('fase3');
+  }
+
+  function renderTrends(){
+    const wrap = document.getElementById('f3-cards');
+    wrap.innerHTML = '';
+    trends.forEach((t, i)=>{
+      const done = !!doneTrends[t.id];
+      const card = document.createElement('div');
+      card.className = 'trend' + (done ? ' done' : '');
+      card.dataset.id = t.id;
+      card.innerHTML = `
+        <span class="trend-badge">✓ Hecho</span>
+        <span class="trend-emoji">${t.emoji}</span>
+        <div class="trend-content">
+          <span class="trend-num">Trend ${i+1}</span>
+          <span class="trend-name">${t.name}</span>
+        </div>
+        <div class="cover">
+          <span class="cover-icon">🎬</span>
+          <span class="cover-num">Trend ${i+1}</span>
+          <span class="cover-hint">Toca para descubrir</span>
+        </div>`;
+      card.addEventListener('click', ()=>{
+        if(doneTrends[t.id]){ openTrend(t.id); }
+        else{ showConfirm('Al abrirlo se revela el trend que os toca grabar. ¿Listos para petarlo?', ()=>openTrend(t.id), {emoji:'🎬', title:'¿Seguro que queréis jugar este trend?'}); }
+      });
+      wrap.appendChild(card);
+    });
+    updateTrendProgress();
+  }
+
+  function updateTrendProgress(){
+    const total = trends.length;
+    const done = trends.filter(t=>doneTrends[t.id]).length;
+    document.getElementById('f3-progress-fill').style.width = (done/total*100) + '%';
+    document.getElementById('f3-progress-label').textContent =
+      done + ' de ' + total + ' trends grabados' + (done===total ? ' · ¡virales! 🌟' : '');
+    const panel = document.getElementById('f3-done-panel');
+    if(done === total){
+      panel.classList.remove('locked');
+      panel.classList.add('unlocked');
+      panel.innerHTML = `
+        <span class="verified">✅</span>
+        <h3>Cuenta verificada del amor</h3>
+        <p>Habéis petado los ${total} trends. Sois oficialmente los mejores influencers... y la mejor pareja. 💙</p>`;
+    } else {
+      panel.classList.add('locked');
+      panel.classList.remove('unlocked');
+      panel.innerHTML = `
+        <span class="verified">🔒</span>
+        <h3>Verificación pendiente</h3>
+        <p>Faltan ${total-done} trend(s) por grabar para conseguir la palomita azul del amor. ✔️</p>`;
+    }
+  }
+
+  function openTrend(id){
+    const i = trends.findIndex(x=>x.id===id);
+    const t = trends[i];
+    const done = !!doneTrends[id];
+    let html = `
+      <span class="modal-phase-tag">Fase 3 · Influencers</span>
+      <div class="modal-title influ">🎬 Trend #${i+1}</div>
+      <p class="modal-lore">Abrid vuestra carpeta de guardados de Instagram y haced el trend que tengáis en el puesto ${i+1}. ¿No llegáis a tantos o queréis variar? Aquí va una idea de repuesto:</p>
+      <div class="modal-section"><h4>${t.emoji} ${t.name}</h4><p>${t.idea}</p></div>
+      <div class="modal-actions">`;
+    if(done){
+      html += `<button class="modal-recover-btn done">✓ Trend ya grabado</button>
+               <p class="modal-note">Ya está en el feed. Podéis rehacerlo cuando queráis. 🎥</p>`;
+    } else {
+      html += `<button class="modal-recover-btn influ-btn" onclick="markTrendDone('${id}')">✅ ¡Ya lo hemos grabado!</button>
+               <p class="modal-note">Dadle solo cuando lo tengáis grabado de verdad. 😏</p>`;
+    }
+    html += `</div>`;
+    document.getElementById('f2-modal-body').innerHTML = html;
+    document.getElementById('f2-modal').classList.add('open');
+  }
+
+  function markTrendDone(id){
+    doneTrends[id] = true;
+    saveTrends();
+    closeModal();
+    const card = document.querySelector(`.trend[data-id="${id}"]`);
+    if(card){
+      card.classList.add('revealing','flash');
+      setTimeout(()=>{
+        card.classList.add('done');
+        card.classList.remove('revealing','flash');
+        updateTrendProgress();
+      }, 1000);
+    } else {
+      renderTrends();
+    }
+  }
+
+  function resetFase3(){
+    if(confirm('¿Empezar los 6 trends otra vez desde cero?')){
+      doneTrends = {};
+      saveTrends();
+      closeModal();
+      renderTrends();
+    }
+  }
+</script>
+</body>
+</html>
